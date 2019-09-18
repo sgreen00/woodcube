@@ -15,6 +15,7 @@ class Block(object):
         """
         self.coord = coord
         self.sides = [None] * len(SIDES)
+        self.parent_side = None
         self.child_side = None
         if 0 <= (parent_side if parent_side is not None else -1) < len(self.sides) and isinstance(parent, Block):
             self.parent_side = (parent_side + 3) % 6
@@ -25,6 +26,17 @@ class Block(object):
         if 0 <= (child_side if child_side is not None else -1) < len(self.sides) and isinstance(child, Block):
             self.child_side = child_side
             self.sides[child_side] = child
+
+    def get_rotation(self):
+        """
+        :return: strings indicating possible rotations available else None
+        """
+        if self.parent_side is None or self.child_side is None or ((self.parent_side - self.child_side) % 3 == 0):
+            # if connections on opposite sides or no parent or no child, then can't rotate
+            return None
+        ps = [list(SIDES)[self.parent_side], list(SIDES)[(self.parent_side + 3) % 6]]
+        cs = [list(SIDES)[self.child_side], list(SIDES)[(self.child_side + 3) % 6]]
+        return ''.join(set(SIDES) - set(ps)) + ' & ' + ''.join(set(SIDES) - set(cs))
 
 
 class Chain(object):
@@ -55,7 +67,7 @@ class Chain(object):
     def print_shape(self):
         side = None
         for b in self.blocks:
-            print(f'{list(SIDES)[side] if side is not None else "S"} {str(b.coord)}')
+            print(f'{list(SIDES)[side] if side is not None else "S"} {str(b.coord)} {b.get_rotation()}')
             side = b.child_side
 
 
