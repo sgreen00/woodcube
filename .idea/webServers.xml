@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="c5c5e64f-8fdd-4e3a-92b2-ca8d5d0bb75d" name="Blender" url="http://localhost">
+        <fileTransfer port="0" mountedRoot="D:\code\woodcube" accessType="MOUNT" />
+      </webServer>
+    </option>
+  </component>
+</project>
